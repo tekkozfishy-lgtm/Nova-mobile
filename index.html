@@ -8,8 +8,8 @@
 <meta
     name="viewport"
     content="width=device-width,
-             initial-scale=1.0,
-             viewport-fit=cover"
+    initial-scale=1.0,
+    viewport-fit=cover"
 >
 
 <meta
@@ -28,22 +28,20 @@
 <style>
 
 /* =========================
-   NOVA UI
+   NOVA
+   Main UI
 ========================= */
 
 :root {
 
-    --background: #05070d;
+    --bg: #05070d;
+    --panel: #0c111b;
+    --border: #1c2737;
 
-    --panel: #0d111b;
+    --text: #f4f7ff;
+    --muted: #8290a6;
 
-    --border: #1d2635;
-
-    --text: #f5f7ff;
-
-    --muted: #7f8ba1;
-
-    --accent: #5bdcff;
+    --accent: #63ddff;
 
 }
 
@@ -64,11 +62,14 @@ body {
 
     height: 100%;
 
+    overflow: hidden;
+
     background:
+
         radial-gradient(
-            circle at 50% 38%,
-            #101b2d 0%,
-            #05070d 45%,
+            circle at 50% 35%,
+            #112033 0%,
+            #070a12 42%,
             #030408 100%
         );
 
@@ -80,7 +81,13 @@ body {
         "Segoe UI",
         sans-serif;
 
-    overflow: hidden;
+}
+
+
+button,
+input {
+
+    font: inherit;
 
 }
 
@@ -90,6 +97,8 @@ body {
 ========================= */
 
 .app {
+
+    width: 100%;
 
     height: 100dvh;
 
@@ -126,11 +135,11 @@ header {
 
 .logo {
 
-    font-size: 22px;
+    font-size: 21px;
 
     font-weight: 700;
 
-    letter-spacing: 6px;
+    letter-spacing: 7px;
 
 }
 
@@ -141,16 +150,16 @@ header {
 
     left: 20px;
 
-    width: 9px;
+    width: 8px;
 
-    height: 9px;
+    height: 8px;
 
     border-radius: 50%;
 
-    background: #45e58b;
+    background: #49e58c;
 
     box-shadow:
-        0 0 12px #45e58b;
+        0 0 13px #49e58c;
 
 }
 
@@ -159,7 +168,7 @@ header {
 
     position: absolute;
 
-    right: 18px;
+    right: 17px;
 
     width: 42px;
 
@@ -169,16 +178,17 @@ header {
 
     border: 1px solid var(--border);
 
-    background: rgba(
-        15,
-        20,
-        30,
-        .7
-    );
+    background:
+        rgba(
+            15,
+            21,
+            32,
+            .75
+        );
 
     color: white;
 
-    font-size: 20px;
+    font-size: 19px;
 
 }
 
@@ -191,6 +201,8 @@ header {
 
     flex: 1;
 
+    min-height: 0;
+
     display: flex;
 
     flex-direction: column;
@@ -198,8 +210,6 @@ header {
     align-items: center;
 
     justify-content: center;
-
-    min-height: 0;
 
 }
 
@@ -210,9 +220,11 @@ header {
 
 .orb-container {
 
-    width: 230px;
+    width: 250px;
 
-    height: 230px;
+    height: 250px;
+
+    position: relative;
 
     display: flex;
 
@@ -220,35 +232,33 @@ header {
 
     justify-content: center;
 
-    position: relative;
-
-    margin-bottom: 25px;
-
 }
 
-
-/* Outer rings */
 
 .ring {
 
     position: absolute;
 
-    width: 190px;
+    width: 185px;
 
-    height: 190px;
+    height: 185px;
 
     border-radius: 50%;
 
-    border: 1px solid
+    border:
+
+        1px solid
         rgba(
-            91,
-            220,
+            99,
+            221,
             255,
             .18
         );
 
     animation:
-        breathe 4s
+
+        breathe
+        4s
         ease-in-out
         infinite;
 
@@ -257,13 +267,13 @@ header {
 
 .ring.two {
 
-    width: 220px;
+    width: 225px;
 
-    height: 220px;
+    height: 225px;
 
-    opacity: .45;
+    opacity: .5;
 
-    animation-delay: 1s;
+    animation-delay: 1.2s;
 
 }
 
@@ -278,42 +288,6 @@ header {
 
     border-radius: 50%;
 
-    border: 1px solid
-        rgba(
-            120,
-            230,
-            255,
-            .7
-        );
-
-    background:
-
-        radial-gradient(
-            circle at 35% 30%,
-            #8beeff 0%,
-            #248db5 20%,
-            #102a43 55%,
-            #070b14 100%
-        );
-
-    box-shadow:
-
-        0 0 25px
-            rgba(
-                91,
-                220,
-                255,
-                .35
-            ),
-
-        inset 0 0 30px
-            rgba(
-                91,
-                220,
-                255,
-                .25
-            );
-
     display: flex;
 
     align-items: center;
@@ -324,8 +298,47 @@ header {
 
     user-select: none;
 
+    border:
+
+        1px solid
+        rgba(
+            120,
+            230,
+            255,
+            .75
+        );
+
+    background:
+
+        radial-gradient(
+            circle at 32% 28%,
+            #a1f2ff 0%,
+            #2d9dbf 19%,
+            #12344d 54%,
+            #060b13 100%
+        );
+
+    box-shadow:
+
+        0 0 30px
+        rgba(
+            99,
+            221,
+            255,
+            .4
+        ),
+
+        inset 0 0 35px
+        rgba(
+            99,
+            221,
+            255,
+            .25
+        );
+
     transition:
-        transform .2s ease,
+
+        transform .18s ease,
         box-shadow .3s ease;
 
 }
@@ -333,12 +346,11 @@ header {
 
 .orb:active {
 
-    transform: scale(.94);
+    transform:
+        scale(.93);
 
 }
 
-
-/* Orb centre */
 
 .orb-core {
 
@@ -349,16 +361,18 @@ header {
     border-radius: 50%;
 
     background:
+
         radial-gradient(
             circle,
-            white,
-            #8beeff 35%,
-            transparent 70%
+            white 0%,
+            #a5f2ff 35%,
+            transparent 72%
         );
 
     filter:
+
         drop-shadow(
-            0 0 10px
+            0 0 12px
             #8beeff
         );
 
@@ -366,31 +380,32 @@ header {
 
 
 /* =========================
-   STATES
+   ORB STATES
 ========================= */
 
 .orb.listening {
 
     animation:
-        listenPulse
-        1.2s
+
+        listening
+        1.1s
         ease-in-out
         infinite;
 
     box-shadow:
 
-        0 0 45px
+        0 0 55px
         rgba(
-            91,
-            220,
+            99,
+            221,
             255,
-            .8
+            .85
         ),
 
-        inset 0 0 40px
+        inset 0 0 45px
         rgba(
-            91,
-            220,
+            99,
+            221,
             255,
             .5
         );
@@ -401,6 +416,7 @@ header {
 .orb.thinking {
 
     animation:
+
         thinking
         1.5s
         linear
@@ -412,8 +428,9 @@ header {
 .orb.speaking {
 
     animation:
+
         speaking
-        .55s
+        .5s
         ease-in-out
         infinite;
 
@@ -430,16 +447,16 @@ header {
     100% {
 
         transform:
-            scale(.95);
+            scale(.94);
 
-        opacity: .4;
+        opacity: .35;
 
     }
 
     50% {
 
         transform:
-            scale(1.05);
+            scale(1.06);
 
         opacity: .8;
 
@@ -448,7 +465,7 @@ header {
 }
 
 
-@keyframes listenPulse {
+@keyframes listening {
 
     0% {
 
@@ -460,7 +477,7 @@ header {
     50% {
 
         transform:
-            scale(1.08);
+            scale(1.1);
 
     }
 
@@ -488,7 +505,7 @@ header {
 
         transform:
             rotate(360deg)
-            scale(1.05);
+            scale(1.04);
 
     }
 
@@ -522,34 +539,35 @@ header {
 
 
 /* =========================
-   STATUS TEXT
+   STATUS
 ========================= */
 
 .state {
 
-    font-size: 15px;
+    min-height: 23px;
 
-    color: var(--muted);
+    font-size: 15px;
 
     letter-spacing: 1px;
 
-    min-height: 22px;
+    color: var(--muted);
 
 }
 
 
 .hint {
 
-    margin-top: 10px;
+    margin-top: 8px;
 
     font-size: 12px;
 
     color:
+
         rgba(
-            127,
-            139,
-            161,
-            .65
+            130,
+            144,
+            166,
+            .6
         );
 
 }
@@ -561,15 +579,15 @@ header {
 
 .chat {
 
-    position: absolute;
-
-    bottom: 125px;
+    position: fixed;
 
     left: 15px;
 
     right: 15px;
 
-    max-height: 22vh;
+    bottom: 125px;
+
+    max-height: 23vh;
 
     overflow-y: auto;
 
@@ -582,23 +600,23 @@ header {
 
     max-width: 85%;
 
+    margin-bottom: 8px;
+
     padding:
         10px 14px;
 
-    margin:
-        0 0 8px;
-
-    border-radius: 15px;
+    border-radius: 16px;
 
     background:
         rgba(
-            15,
-            20,
-            30,
-            .8
+            13,
+            18,
+            28,
+            .85
         );
 
     border:
+
         1px solid
         rgba(
             255,
@@ -620,10 +638,10 @@ header {
 
     background:
         rgba(
-            35,
-            52,
-            75,
-            .9
+            31,
+            50,
+            73,
+            .95
         );
 
 }
@@ -644,9 +662,11 @@ header {
     bottom: 0;
 
     padding:
+
         10px 13px;
 
     padding-bottom:
+
         calc(
             10px +
             env(
@@ -655,17 +675,19 @@ header {
         );
 
     background:
+
         rgba(
+            5,
             7,
-            9,
-            16,
-            .9
+            13,
+            .92
         );
 
     backdrop-filter:
         blur(18px);
 
     border-top:
+
         1px solid
         var(--border);
 
@@ -693,28 +715,39 @@ input {
 
     min-width: 0;
 
+    height: 48px;
+
+    padding:
+        0 17px;
+
+    border-radius: 25px;
+
     border:
+
         1px solid
         var(--border);
 
     outline: none;
 
     background:
+
         rgba(
-            20,
-            26,
-            38,
+            17,
+            24,
+            36,
             .95
         );
 
     color: white;
 
-    padding:
-        13px 17px;
-
-    border-radius: 25px;
-
     font-size: 16px;
+
+}
+
+
+input::placeholder {
+
+    color: #6f7b90;
 
 }
 
@@ -728,16 +761,17 @@ input {
     border-radius: 50%;
 
     border:
+
         1px solid
         var(--border);
 
     background:
-        #172333;
+        #142233;
 
     color:
         var(--accent);
 
-    font-size: 19px;
+    font-size: 20px;
 
 }
 
@@ -750,9 +784,9 @@ input {
 
     .orb-container {
 
-        width: 280px;
+        width: 290px;
 
-        height: 280px;
+        height: 290px;
 
     }
 
@@ -768,7 +802,14 @@ input {
 
         max-width: 650px;
 
-        margin: auto;
+        left: 50%;
+
+        right: auto;
+
+        width: 650px;
+
+        transform:
+            translateX(-50%);
 
     }
 
@@ -796,6 +837,7 @@ input {
     <button
         class="settings"
         id="settings"
+        aria-label="Settings"
     >
         ⚙
     </button>
@@ -808,7 +850,6 @@ input {
 
     <div
         class="orb-container"
-        id="orbContainer"
     >
 
         <div class="ring"></div>
@@ -820,10 +861,13 @@ input {
             class="orb"
             id="orb"
             role="button"
+            tabindex="0"
             aria-label="Talk to NOVA"
         >
 
-            <div class="orb-core"></div>
+            <div
+                class="orb-core"
+            ></div>
 
         </div>
 
@@ -834,16 +878,12 @@ input {
         class="state"
         id="state"
     >
-
         Ready
-
     </div>
 
 
     <div class="hint">
-
         Tap NOVA to speak
-
     </div>
 
 
@@ -864,6 +904,7 @@ input {
 
         <input
             id="input"
+            type="text"
             placeholder="Ask NOVA..."
             autocomplete="off"
         >
@@ -872,20 +913,31 @@ input {
         <button
             class="send"
             id="send"
+            aria-label="Send"
         >
-
             ↑
-
         </button>
 
 
     </div>
 
-
 </div>
 
 
 </div>
+
+
+<!--
+    LOCAL AI
+
+    This loads the AI engine.
+    It does NOT require an OpenAI API key.
+-->
+
+<script
+    type="module"
+    src="./ai.js"
+></script>
 
 
 <script>
@@ -933,13 +985,21 @@ function setState(
         text;
 
     orb.className =
-        "orb " + mode;
+        "orb";
+
+    if (mode) {
+
+        orb.classList.add(
+            mode
+        );
+
+    }
 
 }
 
 
 /* =========================
-   MESSAGE
+   CHAT
 ========================= */
 
 function addMessage(
@@ -977,7 +1037,7 @@ function addMessage(
 
 
 /* =========================
-   SPEAK
+   SPEECH
 ========================= */
 
 function speak(
@@ -991,6 +1051,10 @@ function speak(
         )
     ) {
 
+        setState(
+            "Ready"
+        );
+
         return;
 
     }
@@ -999,25 +1063,25 @@ function speak(
     speechSynthesis.cancel();
 
 
-    const voice =
+    const speech =
         new SpeechSynthesisUtterance(
             text
         );
 
 
-    voice.lang =
+    speech.lang =
         "en-GB";
 
 
-    voice.rate =
+    speech.rate =
         1;
 
 
-    voice.pitch =
+    speech.pitch =
         1;
 
 
-    voice.onstart =
+    speech.onstart =
         () => {
 
             setState(
@@ -1028,7 +1092,17 @@ function speak(
         };
 
 
-    voice.onend =
+    speech.onend =
+        () => {
+
+            setState(
+                "Ready"
+            );
+
+        };
+
+
+    speech.onerror =
         () => {
 
             setState(
@@ -1039,8 +1113,68 @@ function speak(
 
 
     speechSynthesis.speak(
-        voice
+        speech
     );
+
+}
+
+
+/* =========================
+   LOCAL AI
+========================= */
+
+async function askLocalAI(
+    message
+) {
+
+    if (
+        !window.NOVA_AI
+    ) {
+
+        return null;
+
+    }
+
+
+    if (
+        typeof
+        window.NOVA_AI.ask
+        !== "function"
+    ) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        setState(
+            "Thinking...",
+            "thinking"
+        );
+
+
+        const response =
+            await window.NOVA_AI.ask(
+                message
+            );
+
+
+        return response;
+
+
+    } catch (error) {
+
+        console.error(
+            "NOVA AI error:",
+            error
+        );
+
+
+        return null;
+
+    }
 
 }
 
@@ -1049,53 +1183,27 @@ function speak(
    NOVA BRAIN
 ========================= */
 
-function nova(
+async function nova(
     command
 ) {
 
     const text =
         command
-            .toLowerCase()
-            .trim();
+            .trim()
+            .toLowerCase();
 
 
-    if (
-        text === "hello" ||
-        text === "hi" ||
-        text === "hey"
-    ) {
-
-        return (
-            "Hello. NOVA is online."
-        );
-
-    }
-
+    /* TIME */
 
     if (
+        text === "time" ||
         text.includes(
-            "who are you"
+            "what time"
         )
     ) {
 
         return (
-            "I'm NOVA, your personal "
-            + "mobile assistant."
-        );
-
-    }
-
-
-    if (
-        text.includes(
-            "what time"
-        ) ||
-        text === "time"
-    ) {
-
-        return (
-            "The time is "
-            +
+            "The time is " +
             new Date()
                 .toLocaleTimeString(
                     "en-GB",
@@ -1106,27 +1214,27 @@ function nova(
                         minute:
                             "2-digit"
                     }
-                )
-            +
+                ) +
             "."
         );
 
     }
 
 
+    /* DATE */
+
     if (
-        text.includes(
-            "what day"
-        ) ||
+        text === "date" ||
         text.includes(
             "what date"
         ) ||
-        text === "date"
+        text.includes(
+            "what day"
+        )
     ) {
 
         return (
-            "Today is "
-            +
+            "Today is " +
             new Date()
                 .toLocaleDateString(
                     "en-GB",
@@ -1143,35 +1251,131 @@ function nova(
                         year:
                             "numeric"
                     }
-                )
-            +
+                ) +
             "."
         );
 
     }
 
 
+    /* GOOGLE */
+
     if (
-        text.includes(
-            "what can you do"
-        ) ||
-        text === "help"
+        text.startsWith(
+            "search google for "
+        )
     ) {
 
+        const query =
+            command.substring(
+                19
+            );
+
+
+        window.open(
+            "https://www.google.com/search?q=" +
+            encodeURIComponent(
+                query
+            ),
+            "_blank"
+        );
+
+
         return (
-            "I can currently listen "
-            + "to you, speak replies, "
-            + "tell you the time and "
-            + "date, and search the web."
+            "Searching Google for " +
+            query +
+            "."
         );
 
     }
 
 
+    /* YOUTUBE */
+
+    if (
+        text.startsWith(
+            "search youtube for "
+        )
+    ) {
+
+        const query =
+            command.substring(
+                20
+            );
+
+
+        window.open(
+            "https://www.youtube.com/results?search_query=" +
+            encodeURIComponent(
+                query
+            ),
+            "_blank"
+        );
+
+
+        return (
+            "Searching YouTube for " +
+            query +
+            "."
+        );
+
+    }
+
+
+    /* GREETING */
+
+    if (
+        text === "hello" ||
+        text === "hi" ||
+        text === "hey"
+    ) {
+
+        return (
+            "Hello. NOVA is online."
+        );
+
+    }
+
+
+    /* IDENTITY */
+
+    if (
+        text.includes(
+            "who are you"
+        ) ||
+        text.includes(
+            "what are you"
+        )
+    ) {
+
+        return (
+            "I'm NOVA, your personal " +
+            "AI assistant."
+        );
+
+    }
+
+
+    /* LOCAL AI */
+
+    const aiResponse =
+        await askLocalAI(
+            command
+        );
+
+
+    if (aiResponse) {
+
+        return aiResponse;
+
+    }
+
+
+    /* FALLBACK */
+
     return (
-        "I don't know how to do "
-        + "that yet. We're going "
-        + "to teach me."
+        "My local AI is not ready yet. " +
+        "Try again in a moment."
     );
 
 }
@@ -1181,11 +1385,13 @@ function nova(
    COMMAND
 ========================= */
 
-function command(
+async function command(
     text
 ) {
 
-    if (!text.trim()) {
+    if (
+        !text.trim()
+    ) {
 
         return;
 
@@ -1208,37 +1414,30 @@ function command(
     );
 
 
-    setTimeout(
-        () => {
-
-            const response =
-                nova(text);
-
-
-            addMessage(
-                response
-            );
+    const response =
+        await nova(
+            text
+        );
 
 
-            speak(
-                response
-            );
+    addMessage(
+        response
+    );
 
-        },
 
-        500
+    speak(
+        response
     );
 
 }
 
 
 /* =========================
-   SEND BUTTON
+   SEND
 ========================= */
 
 send.addEventListener(
     "click",
-
     () => {
 
         command(
@@ -1246,7 +1445,6 @@ send.addEventListener(
         );
 
     }
-
 );
 
 
@@ -1256,11 +1454,11 @@ send.addEventListener(
 
 input.addEventListener(
     "keydown",
-
     event => {
 
         if (
-            event.key === "Enter"
+            event.key ===
+            "Enter"
         ) {
 
             command(
@@ -1270,12 +1468,11 @@ input.addEventListener(
         }
 
     }
-
 );
 
 
 /* =========================
-   VOICE
+   VOICE INPUT
 ========================= */
 
 const Recognition =
@@ -1302,9 +1499,10 @@ if (Recognition) {
         false;
 
 
+    /* START */
+
     orb.addEventListener(
         "click",
-
         () => {
 
             setState(
@@ -1317,18 +1515,19 @@ if (Recognition) {
 
                 recognition.start();
 
-            }
+            } catch {
 
-            catch {
-
-                // Already listening
+                console.log(
+                    "Already listening."
+                );
 
             }
 
         }
-
     );
 
+
+    /* RESULT */
 
     recognition.onresult =
         event => {
@@ -1339,18 +1538,14 @@ if (Recognition) {
                     .transcript;
 
 
-            setState(
-                "Thinking...",
-                "thinking"
-            );
-
-
             command(
                 result
             );
 
         };
 
+
+    /* END */
 
     recognition.onend =
         () => {
@@ -1373,12 +1568,21 @@ if (Recognition) {
         };
 
 
+    /* ERROR */
+
     recognition.onerror =
-        () => {
+        event => {
+
+            console.log(
+                "Voice error:",
+                event.error
+            );
+
 
             setState(
                 "Couldn't hear you"
             );
+
 
             setTimeout(
                 () => {
@@ -1388,12 +1592,10 @@ if (Recognition) {
                     );
 
                 },
-
                 1500
             );
 
         };
-
 
 }
 
@@ -1409,20 +1611,42 @@ if (
 
     window.addEventListener(
         "load",
-
         () => {
 
-            navigator.serviceWorker
+            navigator
+                .serviceWorker
                 .register(
                     "./sw.js"
+                )
+                .catch(
+                    error => {
+
+                        console.log(
+                            "SW error:",
+                            error
+                        );
+
+                    }
                 );
 
         }
-
     );
 
 }
-<script type="module" src="./ai.js"></script>
+
+
+/* =========================
+   START
+========================= */
+
+setState(
+    "Ready"
+);
+
+
+console.log(
+    "NOVA v2 online."
+);
 
 </script>
 
