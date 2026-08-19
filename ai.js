@@ -1,86 +1,78 @@
 import { pipeline } from
     "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
 
-let generator = null;
-let loading = false;
-
-/*
-    NOVA LOCAL AI
-
-    The model runs in the browser.
-    No OpenAI API key is required.
-
-    We start with a small model so we can
-    test whether your iPhone can handle it.
-*/
+let novaAI = null;
+let loadingPromise = null;
 
 const MODEL =
-    "onnx-community/Qwen2.5-0.5B-Instruct";
+    "onnx-community/SmolLM2-135M-Instruct-ONNX-MHA";
+
 
 async function loadAI() {
 
-    if (generator) {
-        return generator;
+    if (novaAI) {
+        return novaAI;
     }
 
-    if (loading) {
-
-        while (loading) {
-            await new Promise(
-                resolve => setTimeout(resolve, 100)
-            );
-        }
-
-        return generator;
+    if (loadingPromise) {
+        return loadingPromise;
     }
 
-    loading = true;
-
-    try {
+    loadingPromise = (async () => {
 
         console.log(
             "NOVA: Loading local AI..."
         );
 
-        const useWebGPU =
-            "gpu" in navigator;
+        const options = {
+            dtype: "q4"
+        };
 
-        generator = await pipeline(
+        /*
+         * Use WebGPU when available.
+         * Otherwise Transformers.js
+         * falls back to WASM.
+         */
+
+        if ("gpu" in navigator) {
+
+            options.device = "webgpu";
+
+        } else {
+
+            options.device = "wasm";
+
+        }
+
+        novaAI = await pipeline(
             "text-generation",
             MODEL,
-            {
-                device:
-                    useWebGPU
-                        ? "webgpu"
-                        : "wasm",
-
-                dtype:
-                    useWebGPU
-                        ? "q4"
-                        : "q4"
-            }
+            options
         );
 
         console.log(
             "NOVA: Local AI ready."
         );
 
-        return generator;
+        return novaAI;
+
+    })();
+
+    try {
+
+        return await loadingPromise;
 
     } catch (error) {
 
         console.error(
-            "NOVA AI failed to load:",
+            "NOVA: Failed to load AI:",
             error
         );
 
-        generator = null;
+        novaAI = null;
+        loadingPromise = null;
 
         throw error;
-
-    } finally {
-
-        loading = false;
 
     }
 
@@ -88,29 +80,38 @@ async function loadAI() {
 
 
 async function askNOVA(
-    userMessage
+    message
 ) {
 
     const ai =
         await loadAI();
 
-    const prompt = `
-You are NOVA, a friendly and intelligent
-personal assistant.
 
-Be helpful, natural and concise.
+    const messages = [
 
-User:
-${userMessage}
+        {
+            role: "system",
 
-NOVA:
-`;
+            content:
+                "You are NOVA, a friendly " +
+                "personal assistant. " +
+                "Give concise, natural answers."
+        },
+
+        {
+            role: "user",
+
+            content: message
+        }
+
+    ];
+
 
     const result =
         await ai(
-            prompt,
+            messages,
             {
-                max_new_tokens: 100,
+                max_new_tokens: 80,
 
                 temperature: 0.7,
 
@@ -118,18 +119,57 @@ NOVA:
             }
         );
 
-    return result[0].generated_text
-        .split("NOVA:")
-        .pop()
-        .trim();
+
+    const generated =
+        result[0].generated_text;
+
+
+    /*
+     * Transformers.js may return the
+     * complete conversation, so extract
+     * the assistant's response.
+     */
+
+    if (
+        Array.isArray(
+            generated
+        )
+    ) {
+
+        const last =
+            generated[
+                generated.length - 1
+            ];
+
+        if (
+            last &&
+            last.content
+        ) {
+
+            return last.content.trim();
+
+        }
+
+    }
+
+
+    if (
+        typeof generated ===
+        "string"
+    ) {
+
+        return generated.trim();
+
+    }
+
+
+    return (
+        "I generated a response, " +
+        "but couldn't read it."
+    );
 
 }
 
-
-/*
-    Make the functions available
-    to our main NOVA application.
-*/
 
 window.NOVA_AI = {
 
@@ -138,3 +178,7 @@ window.NOVA_AI = {
     ask: askNOVA
 
 };
+
+console.log(
+    "NOVA local AI module loaded."
+);
