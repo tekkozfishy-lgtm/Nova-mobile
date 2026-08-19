@@ -1,78 +1,90 @@
 import { pipeline } from
     "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
 
-let novaAI = null;
-let loadingPromise = null;
-
 const MODEL =
     "onnx-community/SmolLM2-135M-Instruct-ONNX-MHA";
 
+let ai = null;
+let loading = null;
 
 async function loadAI() {
 
-    if (novaAI) {
-        return novaAI;
+    if (ai) {
+        return ai;
     }
 
-    if (loadingPromise) {
-        return loadingPromise;
+    if (loading) {
+        return loading;
     }
 
-    loadingPromise = (async () => {
+    loading = (async () => {
 
-        console.log(
-            "NOVA: Loading local AI..."
-        );
+        try {
 
-        const options = {
-            dtype: "q4"
-        };
+            console.log(
+                "NOVA: loading local AI..."
+            );
 
-        /*
-         * Use WebGPU when available.
-         * Otherwise Transformers.js
-         * falls back to WASM.
-         */
+            const options = {
+                dtype: "q4"
+            };
 
-        if ("gpu" in navigator) {
+            /*
+             * Chrome/Chromebook can use
+             * WebGPU when available.
+             *
+             * Safari/iPhone falls back
+             * to WASM.
+             */
 
-            options.device = "webgpu";
+            if (
+                "gpu" in navigator
+            ) {
 
-        } else {
+                options.device =
+                    "webgpu";
 
-            options.device = "wasm";
+            } else {
+
+                options.device =
+                    "wasm";
+
+            }
+
+            ai = await pipeline(
+                "text-generation",
+                MODEL,
+                options
+            );
+
+            console.log(
+                "NOVA: local AI ready"
+            );
+
+            return ai;
+
+        } catch (error) {
+
+            console.error(
+                "NOVA AI failed:",
+                error
+            );
+
+            ai = null;
+
+            throw error;
 
         }
-
-        novaAI = await pipeline(
-            "text-generation",
-            MODEL,
-            options
-        );
-
-        console.log(
-            "NOVA: Local AI ready."
-        );
-
-        return novaAI;
 
     })();
 
     try {
 
-        return await loadingPromise;
+        return await loading;
 
-    } catch (error) {
+    } finally {
 
-        console.error(
-            "NOVA: Failed to load AI:",
-            error
-        );
-
-        novaAI = null;
-        loadingPromise = null;
-
-        throw error;
+        loading = null;
 
     }
 
@@ -83,89 +95,58 @@ async function askNOVA(
     message
 ) {
 
-    const ai =
+    const model =
         await loadAI();
 
-
-    const messages = [
-
-        {
-            role: "system",
-
-            content:
-                "You are NOVA, a friendly " +
-                "personal assistant. " +
-                "Give concise, natural answers."
-        },
-
-        {
-            role: "user",
-
-            content: message
-        }
-
-    ];
+    const prompt =
+        "You are NOVA, a friendly " +
+        "personal assistant. " +
+        "Answer the user's question " +
+        "clearly and concisely.\n\n" +
+        "User: " +
+        message +
+        "\nNOVA:";
 
 
     const result =
-        await ai(
-            messages,
+        await model(
+            prompt,
             {
                 max_new_tokens: 80,
-
                 temperature: 0.7,
-
                 do_sample: true
             }
         );
 
 
-    const generated =
+    let answer =
         result[0].generated_text;
 
 
-    /*
-     * Transformers.js may return the
-     * complete conversation, so extract
-     * the assistant's response.
-     */
-
     if (
-        Array.isArray(
-            generated
-        )
-    ) {
-
-        const last =
-            generated[
-                generated.length - 1
-            ];
-
-        if (
-            last &&
-            last.content
-        ) {
-
-            return last.content.trim();
-
-        }
-
-    }
-
-
-    if (
-        typeof generated ===
+        typeof answer ===
         "string"
     ) {
 
-        return generated.trim();
+        if (
+            answer.includes("NOVA:")
+        ) {
+
+            answer =
+                answer
+                    .split("NOVA:")
+                    .pop();
+
+        }
+
+        return answer.trim();
 
     }
 
 
     return (
-        "I generated a response, " +
-        "but couldn't read it."
+        "Sorry, I couldn't understand " +
+        "my own response."
     );
 
 }
@@ -179,6 +160,7 @@ window.NOVA_AI = {
 
 };
 
+
 console.log(
-    "NOVA local AI module loaded."
+    "NOVA AI module loaded."
 );
