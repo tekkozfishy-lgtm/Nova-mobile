@@ -1,0 +1,10 @@
+{
+  "name": "NOVA Mobile",
+  "short_name": "NOVA",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070910",
+  "theme_color": "#070910",
+  "description": "Your personal mobile AI assistant",
+  "orientation": "portrait"
+}
